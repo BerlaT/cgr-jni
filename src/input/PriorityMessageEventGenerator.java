@@ -1,7 +1,8 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package input;
+ */
+package input;
 
 
 
@@ -23,6 +24,7 @@ public class PriorityMessageEventGenerator extends MessageEventGenerator
 		//controllare eccezione
 		//aggiungere define
 		this.priority= s.getInt(MESSAGE_PRIORITY);
+		System.out.println("............................................................."+this.priority);
 		if(this.priority<0 || this.priority>2)
 			throw new SettingsError("Message priority must be in range 0-2");
 	}

@@ -1,7 +1,8 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package report;
+ */
+package report;
 
 import java.io.File;
 import java.util.List;
@@ -32,33 +33,14 @@ public class ExtendedEventLogReport extends EventLogReport {
 	 * of external events read from the external file. IMPORTANT: must be used a
 	 * cast
 	 */
-	private File file = new File("mio_cp.txt");
-	private CPEventsReader reader = new CPEventsReader(file);
-	private List<ExternalEvent> events = reader.readEvents(500);
 
 	@Override
 	public void hostsConnected(DTNHost host1, DTNHost host2) {
-		int connectionSpeed = 0;
-		String speed = "";
-
-		for (Connection c : host1.getConnections()) {
-			for (ExternalEvent ev : events) {
-				/**
-				 * Cast needed in order to use the event speed, as defined in
-				 * the Contact Plan
-				 */
-				connectionSpeed = ((CPConnectionEvent) ev).getSpeed();
-			}
-
-			if (c.getOtherNode(host1).equals(host2)) {
-				speed = String.valueOf(connectionSpeed);
-			}
-		}
 		/**
 		 * "CONN" and "up" used because not specified by the reader Remember:
 		 * Contact Plan only specifies open/close of connections between nodes
 		 */
-		processEvent("CONN", host1, host2, null, "up" + " " + speed);
+		processEvent("CONN", host1, host2, null, "up" + " " + host1.getInterface(1).getTransmitSpeed(host2.getInterface(1)));
 	}
 
 	private void processEvent(final String action, final DTNHost host1, final DTNHost host2, final Message message,

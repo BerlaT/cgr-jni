@@ -1,7 +1,9 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package routing;
+ */
+
+package routing;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -174,7 +176,7 @@ public class PriorityOpportunisticContactGraphRouter extends OpportunisticContac
 				Message m1;
 				while (iter.hasNext()) {
 					m1 = iter.next();
-					if (m1.equals(m)) {
+					if (m1.getId().equals(m.getId())) {
 						iter.remove();
 						status.removeOutductReference(this);
 						bulkBacklog -= m.getSize();

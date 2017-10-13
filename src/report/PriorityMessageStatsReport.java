@@ -1,7 +1,8 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package report;
+ */
+package report;
 
 import java.util.ArrayList;
 import java.util.HashMap;

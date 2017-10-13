@@ -1,20 +1,20 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
  */package cgr_jni;
 
-import routing.ContactGraphRouter;
-import routing.OpportunisticContactGraphRouter;
-import routing.ContactGraphRouter.MessageStatus;
-import routing.ContactGraphRouter.Outduct;
-import routing.PriorityContactGraphRouter;
-import routing.PriorityContactGraphRouter.PriorityOutduct;
-
 import java.util.HashSet;
+import java.util.List;
 
 import core.DTNHost;
 import core.Message;
 import core.PriorityMessage;
+import routing.ContactGraphRouter;
+import routing.ContactGraphRouter.MessageStatus;
+import routing.ContactGraphRouter.Outduct;
+import routing.OpportunisticContactGraphRouter;
+import routing.PriorityContactGraphRouter;
+import routing.PriorityContactGraphRouter.PriorityOutduct;
 
 /**
  * In this class are implemented the static methods accessed from
@@ -32,7 +32,9 @@ public class IONInterface {
 	//// STATIC METHODS ACCESSED FROM JNI /////
 
 	static long getMessageSenderNbr(Message message) {
-		return message.getFrom().getAddress();
+		int size = message.getHops().size();
+		if(size==1) return message.getHops().get(0).getAddress();
+		return message.getHops().get(size-2).getAddress();
 	}
 
 	static long getMessageDestinationNbr(Message message) {
@@ -149,7 +151,19 @@ public class IONInterface {
 		}
 		return null;
 	}
+	
+	static int getMessagePathCount(Message message) {
+		return message.getHops().size();
+	}
 
+	static int[] getMessagePath (Message message) {
+		int[] out = new int[message.getHops().size()];
+		List<DTNHost> list = message.getHops();
+		for(int i=0; i<out.length; i++) {
+			out[i] = list.get(i).getAddress();
+		}
+		return out;
+	}
 	static double getMessageDlvConfidence(Message message) {
 		double result;
 		MessageStatus status = getMessageStatus(message);

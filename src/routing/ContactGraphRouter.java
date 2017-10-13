@@ -1,7 +1,9 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package routing;
+ */
+
+package routing;
 
 import java.util.List;
 import java.util.Set;

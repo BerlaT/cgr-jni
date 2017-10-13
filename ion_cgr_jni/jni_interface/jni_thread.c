@@ -2,7 +2,7 @@
  * jni_threads.c
  *
  *  Created on: 24 nov 2015
- *      Author: Michele Rodolfi University of Bologna michirod@gmail.com
+ *      Author: michele
  */
 #include "jni_thread.h"
 

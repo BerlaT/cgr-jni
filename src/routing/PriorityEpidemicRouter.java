@@ -1,7 +1,9 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package routing;
+ */
+
+package routing;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,14 +65,14 @@ public class PriorityEpidemicRouter extends ActiveRouter {
 	@Override
 	public void update() {
 		super.update();
-		if (isTransferring() || !canStartTransfer()) {
+		/*if (isTransferring() || !canStartTransfer()) {
 			return; // transferring, don't try other connections yet
 		}
 
 		// Try first the messages that can be delivered to final recipient
 		if (exchangeDeliverableMessages() != null) {
 			return; // started a transfer, don't try others (yet)
-		}
+		}*/
 
 		// then try any/all message to any/all connection
 		this.tryAllMessagesToAllConnections();

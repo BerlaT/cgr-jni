@@ -268,6 +268,7 @@ static int	getApplicableRange(IonCXref *contact, unsigned int *owlt)
 
 	if (contact->discovered || contact->confidence < 1.0)
 	{
+		*owlt=0; /* [MM] added */
 		return 0;	/*	Physically adjacent nodes.	*/
 	}
 
@@ -378,11 +379,11 @@ static int	computeDistanceToTerminus(IonCXref *rootContact,
 				continue;
 			}
 
-/* DIFF: the following if block is not present */
-if (current == rootContact && contact->confidence < 1.0)
-{
-	continue;	/*	First contact must be certain.		*/
-}
+/* DIFF: the following if block is not present */ /* [MM] commented */
+//if (current == rootContact && contact->confidence < 1.0)
+//{
+//	continue;	/*	First contact must be certain.		*/
+//}
 			work = (CgrContactNote *) psp(ionwm,
 					contact->routingObject);
 			CHKERR(work);
@@ -409,15 +410,15 @@ if (current == rootContact && contact->confidence < 1.0)
 			}
 
 			/* DIFF: the following if block is not present */
-			if (work->capacity < capacityFloor)
+			/*if (work->capacity < capacityFloor)
 			{
+				printf("%ul %ul\n", work->capacity, capacityFloor);
 				TRACE(CgrIgnoreContact, CgrCapacityTooSmall);
 				continue;
-			}
+			}*/
 
 			/*	Get OWLT between the nodes in contact,
 			 *	from applicable range in range index.	*/
-
 			if (getApplicableRange(contact, &owlt) < 0)
 			{
 				TRACE(CgrIgnoreContact, CgrNoRange);
@@ -1305,7 +1306,6 @@ static time_t	computeArrivalTime(CgrRoute *route, Bundle *bundle,
 
 			return 0;
 		}
-
 		if (getApplicableRange(contact, &owlt) < 0)
 		{
 			/*	Can't determine owlt for this contact,
@@ -1573,6 +1573,7 @@ static int	identifyProximateNodes(IonNode *terminusNode, Bundle *bundle,
 	 *	reason or another.					*/
 
 	routes = terminusNode->routingObject;
+
 	if (routes == 0)	/*	No current routes to this node.	*/
 	{
 		if ((routes = loadRouteList(terminusNode, currentTime, trace))
@@ -1583,7 +1584,6 @@ static int	identifyProximateNodes(IonNode *terminusNode, Bundle *bundle,
 			return -1;
 		}
 	}
-
 	TRACE(CgrIdentifyProximateNodes, deadline);
 	for (elt = sm_list_first(ionwm, routes); elt; elt = nextElt)
 	{
@@ -1677,7 +1677,6 @@ static int	identifyProximateNodes(IonNode *terminusNode, Bundle *bundle,
 			TRACE(CgrIgnoreRoute, CgrRouteCapacityTooSmall);
 			continue;
 		}
-
 		/*	Is the neighbor that receives bundles during
 		 *	this route's initial contact excluded for any
 		 *	reason?						*/
@@ -1702,7 +1701,6 @@ static int	identifyProximateNodes(IonNode *terminusNode, Bundle *bundle,
 			return -1;
 		}
 	}
-
 	return 0;
 }
 
@@ -2183,13 +2181,11 @@ static int 	cgrForward(Bundle *bundle, Object bundleObj,
 	 *	regardless of whether that node is the bundle's
 	 *	final destination or an intermediate forwarding
 	 *	station.			 			*/
-//printf("Node %lu: cgrForward to: %lu\n", getOwnNodeNbr(), terminusNodeNbr);
 
 	CHKERR(bundle && bundleObj && terminusNodeNbr && plans && getDirective);
 
 	TRACE(CgrBuildRoutes, terminusNodeNbr, bundle->payload.length,
 			(unsigned int)(atTime));
-
 	/* DIFF: the following if block is completely different */
 	if (ionvdb->lastEditTime > cgrvdb->lastLoadTime) 
 	{
@@ -2227,7 +2223,6 @@ static int 	cgrForward(Bundle *bundle, Object bundleObj,
 		 *	re-routing, possibly back through the sender,
 		 *	because we have hit a dead end in routing and
 		 *	must backtrack.					*/
-
 		if (excludeNode(excludedNodes, bundle->clDossier.senderNodeNbr))
 		{
 			putErrmsg("Can't exclude sender from routes.", NULL);
@@ -2235,6 +2230,21 @@ static int 	cgrForward(Bundle *bundle, Object bundleObj,
 			lyst_destroy(proximateNodes);
 			return -1;
 		}
+		/* [MM] added */
+		//printf("%u: %u -> %u Not forward to: %u\n", getOwnNodeNbr(), bundle->clDossier.senderNodeNbr, bundle->destination.c.nodeNbr, bundle->clDossier.senderNodeNbr);
+		/*
+		for(int i=1; i<bundle->pathLen; i++)
+		{
+			//printf("%u: %u -> %u Not forward to: %u\n", getOwnNodeNbr(), bundle->clDossier.senderNodeNbr, bundle->destination.c.nodeNbr, bundle->path[i]);
+			if (excludeNode(excludedNodes, bundle->path[i]))
+			{
+				putErrmsg("Can't exclude node from routes.", NULL);
+				lyst_destroy(excludedNodes);
+				lyst_destroy(proximateNodes);
+				return -1;
+			}
+		}
+		*/
 	}
 
 	/*	Insert into the excludedNodes list all neighbors that

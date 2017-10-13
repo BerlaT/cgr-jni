@@ -1,0 +1,31 @@
+
+Scenario.name = ContactGraphRouter
+Scenario.simulateConnections = false
+Scenario.nrofHostGroups = 1
+Group.nrofHosts = 2
+Group.router = ContactGraphRouter
+
+AsymmetricInterface.type = SimpleAsymmetricInterface
+AsymmetricInterface.transmitSpeed = 250k
+AsymmetricInterface.transmitRange = 10
+
+Group1.groupID = h
+Group1.nrofInterfaces = 1
+#Group1.interface1 = AsymmetricInterface
+
+ContactGraphRouter.ContactPlanPath = example_settings/Deterministic_Example/cgr_Asym/contact_plan.txt
+ContactGraphRouter.debug = false
+Events.nrof = 2
+Events1.class = CPExternalEventsQueue
+Events1.filePath = example_settings/Deterministic_Example/cgr_Asym/contact_plan.txt
+
+Events2.class = DMExternalEventsQueue
+Events2.filePath = example_settings/Deterministic_Example/cgr_Asym/message_plan.txt
+Events2.prefix = D
+
+#Reports for priority messages
+Report.report1 = PriorityMessageStatsReport
+
+Group.movementModel = StationaryMovement
+Group.nodeLocation = 0,0
+

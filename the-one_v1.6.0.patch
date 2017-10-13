@@ -1,0 +1,78 @@
+diff -ruN one.sh one.sh
+--- one.sh	2017-04-17 12:30:39.000000000 +0200
++++ one.sh	2017-09-07 17:11:47.751644000 +0200
+@@ -1,2 +1,2 @@
+ #! /bin/sh
+-java -Xmx512M -cp target:lib/ECLA.jar:lib/DTNConsoleConnection.jar core.DTNSim $*
++java -Xmx512M -cp bin:target:lib/ECLA.jar:lib/DTNConsoleConnection.jar:$CGR_JNI_C
+diff -ruN src/core/DTNHost.java src/core/DTNHost.java
+--- src/core/DTNHost.java	2017-04-17 12:30:39.000000000 +0200
++++ src/core/DTNHost.java	2017-09-07 17:13:06.394603000 +0200
+@@ -19,7 +19,7 @@
+  * A DTN capable host.
+  */
+ public class DTNHost implements Comparable<DTNHost> {
+-	private static int nextAddress = 0;
++	private static int nextAddress = 1;
+ 	private int address;
+ 
+ 	private Coord location; 	// where is the host
+@@ -104,7 +104,7 @@
+ 	 * Reset the host and its interfaces
+ 	 */
+ 	public static void reset() {
+-		nextAddress = 0;
++		nextAddress = 1;
+ 	}
+ 
+ 	/**
+diff -ruN src/core/NetworkInterface.java src/core/NetworkInterface.java
+--- src/core/NetworkInterface.java	2017-04-17 12:30:39.000000000 +0200
++++ src/core/NetworkInterface.java	2017-09-07 17:18:22.175725000 +0200
+@@ -513,5 +513,9 @@
+ 		return this.address + " of " + this.host +
+ 			". Connections: " +	this.connections;
+ 	}
++	
++	public void setTransmitSpeed(int transmitSpeed) {
++		this.transmitSpeed = transmitSpeed;
++	}
+ 
+ }
+diff -ruN src/input/EventQueueHandler.java src/input/EventQueueHandler.java
+--- src/input/EventQueueHandler.java	2017-04-17 12:30:39.000000000 +0200
++++ src/input/EventQueueHandler.java	2017-09-07 17:19:56.803199000 +0200
+@@ -63,7 +63,7 @@
+ 		for (int i=1; i <= nrof; i++) {
+ 			Settings s = new Settings(SETTINGS_NAMESPACE + i);
+ 
+-			if (s.contains(PATH_SETTING)) { // external events file
++			/*if (s.contains(PATH_SETTING)) { // external events file
+ 				int preload = 0;
+ 				String path = "";
+ 				if (s.contains(PRELOAD_SETTING)) {
+@@ -73,7 +73,7 @@
+ 
+ 				queues.add(new ExternalEventsQueue(path, preload));
+ 			}
+-			else if (s.contains(CLASS_SETTING)) { // event generator class
++			else*/ if (s.contains(CLASS_SETTING)) { // event generator class
+ 				String className = CLASS_PACKAGE + "." +
+ 					s.getSetting(CLASS_SETTING);
+ 				EventQueue eq = (EventQueue)s.createIntializedObject(className);
+diff -ruN src/report/MessageStatsReport.java src/report/MessageStatsReport.java
+--- src/report/MessageStatsReport.java	2017-04-17 12:30:39.000000000 +0200
++++ src/report/MessageStatsReport.java	2017-09-07 17:15:24.603573000 +0200
+@@ -176,7 +176,11 @@
+ 			;
+ 
+ 		write(statsText);
++		write(getMoreInfo());
+ 		super.done();
+ 	}
+-
++	
++	protected String getMoreInfo() {
++		return "";
++	}
+ }

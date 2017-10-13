@@ -2,7 +2,7 @@
  * init_global.c
  *
  *  Created on: 23 nov 2015
- *      Author: Michele Rodolfi University of Bologna michirod@gmail.com
+ *      Author: michele
  */
 
 

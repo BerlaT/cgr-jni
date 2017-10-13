@@ -2,7 +2,7 @@
  * ONEtoION_interface.c
  *
  *  Created on: 17 dic 2015
- *      Author: Michele Rodolfi University of Bologna michirod@gmail.com
+ *      Author: michele
  */
 
 #include <jni.h>
@@ -165,6 +165,38 @@ static int getMessageXmitCopies(jobject message, int copies[])
 			ONEtoION_interfaceClass);
 	jmethodID method = (*jniEnv)->GetStaticMethodID(jniEnv,
 			interfaceClass,	"getMessageXmitCopies","(Lcore/Message;)[I");
+	jintArray result = (*jniEnv)->CallStaticObjectMethod(jniEnv,
+			interfaceClass,	method, message);
+	jsize len = (*jniEnv)->GetArrayLength(jniEnv, result);
+	jint * elt = (*jniEnv)->GetIntArrayElements(jniEnv, result, 0);
+	int i;
+	for (i = 0; i < len; i++)
+	{
+		copies[i] = elt[i];
+	}
+	(*jniEnv)->ReleaseIntArrayElements(jniEnv, result, elt, 0);
+	return (int) len;
+}
+/* [MM] */
+static int getMessagePathCount(jobject message)
+{
+	JNIEnv * jniEnv = getThreadLocalEnv();
+	jclass interfaceClass = (*jniEnv)->FindClass(jniEnv,
+			ONEtoION_interfaceClass);
+	jmethodID method = (*jniEnv)->GetStaticMethodID(jniEnv, interfaceClass,
+			"getMessagePathCount","(Lcore/Message;)I");
+	jint result = (*jniEnv)->CallStaticIntMethod(jniEnv, interfaceClass,
+			method, message);
+	return (int) result;
+}
+
+static int getMessagePath(jobject message, int copies[])
+{
+	JNIEnv * jniEnv = getThreadLocalEnv();
+	jclass interfaceClass = (*jniEnv)->FindClass(jniEnv,
+			ONEtoION_interfaceClass);
+	jmethodID method = (*jniEnv)->GetStaticMethodID(jniEnv,
+			interfaceClass,	"getMessagePath","(Lcore/Message;)[I");
 	jintArray result = (*jniEnv)->CallStaticObjectMethod(jniEnv,
 			interfaceClass,	method, message);
 	jsize len = (*jniEnv)->GetArrayLength(jniEnv, result);
@@ -439,7 +471,7 @@ int one_manage_overbooking(double overbooked,double protect,Bundle *lastSent)
 void ion_bundle(Bundle * bundle, jobject message)
 {
 	memset(bundle, 0, sizeof(Bundle));
-	bundle->returnToSender = 1;
+	bundle->returnToSender = 0; /* [MM] set to 0 */
 	bundle->clDossier.senderNodeNbr = getMessageSenderNbr(message);
 	/*
 	bundle->expirationTime =
@@ -464,6 +496,15 @@ void ion_bundle(Bundle * bundle, jobject message)
 	bundle->extensionsLength[PRE_PAYLOAD] = 0;
 	bundle->extensionsLength[POST_PAYLOAD] = 0;
 #ifdef OPPORTUNISTIC_ROUTING
+
+	/* [MM] added */
+	//bundle->pathLen = getMessagePathCount(message);
+	//bundle->path = (int*) malloc(sizeof(int)*bundle->pathLen);
+	//getMessagePath(message, bundle->path);
+	/*for(int i=0; i<bundle->pathLen; i++){
+		printf("%d\n", bundle->path[i]);
+	}*/
+
 	getXmitCopiesDlvConficence(message, bundle);
 #endif
 }

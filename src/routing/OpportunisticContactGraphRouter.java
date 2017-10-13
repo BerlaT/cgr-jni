@@ -1,7 +1,9 @@
-*
+/*
  * Copyright 2017 University of Bologna
  * Released under GPLv3. See LICENSE.txt for details.
- */package routing;
+ */
+
+package routing;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -200,7 +202,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 	 */
 	private void contactAquired(Connection con)
 	{
-		Libocgr.contactDiscoveryAquired(getHost().getAddress(), 
+		if(!con.getOtherNode(getHost()).equals(this.getHost())) Libocgr.contactDiscoveryAquired(getHost().getAddress(), 
 				con.getOtherNode(getHost()).getAddress(), (int)con.getSpeed());
 	}
 
