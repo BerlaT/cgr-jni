@@ -58,7 +58,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 	 * if true OCGR tries to send the message epidemically if no routes
 	 * can be found by the cgrForward() function.
 	 */
-	protected boolean epidemicDropBack = true;
+	protected boolean epidemicDropBack = false;
 	/**
 	 * for test and debug purpose: if true the function cgrForward() will
 	 * never be invoked.
@@ -131,11 +131,13 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 	 */
 	protected void discoveredContactStart(Connection con)
 	{
-		exchangeCurrentDiscoveredContacts(con);
-		excangeContactHistory(con);
-		predictContacts();
-		contactAquired(con);
-		contactPlanChanged();
+		if(!con.getOtherNode(getHost()).equals(this.getHost())) {
+			exchangeCurrentDiscoveredContacts(con);
+			excangeContactHistory(con);
+			predictContacts();
+			contactAquired(con);
+			contactPlanChanged();
+		}
 	}
 
 	/**
@@ -239,6 +241,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 			if (first == null)
 				return;
 			for (Connection c : getConnections()){
+				if(c.getOtherNode(getHost()).equals(getHost())) continue;
 				cur = first;
 				epidemicSearchIndex = 1;
 				while (cur != null)

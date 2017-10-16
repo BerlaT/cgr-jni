@@ -253,7 +253,7 @@ public class PriorityContactGraphRouter extends ContactGraphRouter {
 				Message m1;
 				while (iter.hasNext()) {
 					m1 = iter.next();
-					if (m1.equals(m)) {
+					if (m1.getId().equals(m.getId())) {
 						iter.remove();
 						// m.updateProperty(OUTDUCT_REF_PROP, NONE_ID);
 						status.removeOutductReference(this);
@@ -270,7 +270,7 @@ public class PriorityContactGraphRouter extends ContactGraphRouter {
 				Message m1;
 				while (iter.hasNext()) {
 					m1 = iter.next();
-					if (m1.equals(m)) {
+					if (m1.getId().equals(m.getId())) {
 						iter.remove();
 						// m.updateProperty(OUTDUCT_REF_PROP, NONE_ID);
 						status.removeOutductReference(this);

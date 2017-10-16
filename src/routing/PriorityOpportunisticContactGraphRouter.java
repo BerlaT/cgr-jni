@@ -192,7 +192,7 @@ public class PriorityOpportunisticContactGraphRouter extends OpportunisticContac
 				Message m1;
 				while (iter.hasNext()) {
 					m1 = iter.next();
-					if (m1.equals(m)) {
+					if (m1.getId().equals(m.getId())) {
 						iter.remove();
 						status.removeOutductReference(this);
 						normalBacklog -= m.getSize();
@@ -208,7 +208,7 @@ public class PriorityOpportunisticContactGraphRouter extends OpportunisticContac
 				Message m1;
 				while (iter.hasNext()) {
 					m1 = iter.next();
-					if (m1.equals(m)) {
+					if (m1.getId().equals(m.getId())) {
 						iter.remove();
 						status.removeOutductReference(this);
 						expeditedBacklog -= m.getSize();
