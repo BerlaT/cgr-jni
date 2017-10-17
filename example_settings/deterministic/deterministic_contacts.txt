@@ -1,0 +1,15 @@
+#This is a template to use deterministic contacts, provided by an external contact plan.
+## Start of Ancillary settings
+Scenario.name = Deterministic_Contacts
+# This disable contacts as a result of distance between nodes
+Scenario.simulateConnections = false
+# This disable node movemnt for all nodes
+Group.movementModel = StationaryMovement
+#All nodes will be colocated on the map at the origin (no possibility to distibuish them on the map)
+Group.nodeLocation = 0,0
+## End of Ancillary settings
+## Start of Core settings
+Events.nrof = 2
+Events2.class = ExternalEventsQueue
+Events2.filePath = example_settings/deterministic/contact_plan_det.txt
+## End of Core settings

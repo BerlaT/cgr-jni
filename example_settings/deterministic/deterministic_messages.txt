@@ -1,0 +1,7 @@
+# This is a template to insert deterministic messages (given in a message plan); they will replace random generators.
+Scenario.name = Deterministic_Messages
+## Start of Core settings
+Events1.class = DMExternalEventsQueue
+Events1.filePath = example_settings/deterministic/message_plan_det.txt
+Events1.prefix = D
+## End of Core settings

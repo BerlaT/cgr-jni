@@ -1,0 +1,60 @@
+# Scenario settings
+Scenario.name = CGR_ASMS_2014
+Scenario.simulateConnections = false
+Scenario.updateInterval = 0.1
+Scenario.endTime = 140
+
+#Intefaces
+AsymmetricInterface.type = SimpleAsymmetricInterface
+AsymmetricInterface.transmitSpeed = 500k
+AsymmetricInterface.transmitRange = 100
+
+#Group common
+# Fixed nodes must belong to different groups to be distinguishable on 
+# the map.
+Scenario.nrofHostGroups = 4
+#Group.router = PriorityContactGraphRouter
+Group.router=ContactGraphRouter
+ContactGraphRouter.ContactPlanPath = example_settings/cgr/ASMS2014/contact_plan_ASMS2014.txt
+ContactGraphRouter.debug = false
+
+#Group specific
+Group1.nrofHosts = 1
+Group2.nrofHosts = 1
+Group3.nrofHosts = 1
+Group4.nrofHosts = 1
+Group1.groupID = h
+Group1.nrofInterfaces = 1
+Group2.groupID = h
+Group2.nrofInterfaces = 1
+Group3.groupID = h
+Group3.nrofInterfaces = 1
+Group4.groupID = h
+Group4.nrofInterfaces = 1
+Group1.interface1 = AsymmetricInterface
+Group2.interface1 = AsymmetricInterface
+Group3.interface1 = AsymmetricInterface
+Group4.interface1 = AsymmetricInterface
+Group1.movementModel = StationaryMovement
+Group1.nodeLocation = 2000,1000
+Group2.movementModel = StationaryMovement
+Group2.nodeLocation = 1000,2000
+Group3.movementModel = StationaryMovement
+Group3.nodeLocation = 3000,2000
+Group4.movementModel = StationaryMovement
+Group4.nodeLocation = 2000,3000
+
+#Events
+Events.nrof = 2
+#Deterministic contacts
+Events1.class = CPExternalEventsQueue
+Events1.filePath = example_settings/cgr/ASMS2014/contact_plan_ASMS2014.txt
+#Deterministic messages
+Events2.class = DMExternalEventsQueue
+#Events2.filePath = example_settings/cgr/ASMS2014/message_plan_ASMS2014_priority.txt
+Events2.filePath = example_settings/cgr/ASMS2014/message_plan_ASMS2014.txt
+Events2.prefix = D
+
+#Reports
+#Report.report1 = PriorityMessageStatsReport
+Report.report1 =MessageStatsReport

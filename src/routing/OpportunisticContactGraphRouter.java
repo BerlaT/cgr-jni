@@ -58,7 +58,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 	 * if true OCGR tries to send the message epidemically if no routes
 	 * can be found by the cgrForward() function.
 	 */
-	protected boolean epidemicDropBack = false;
+	protected boolean epidemicDropBack = true;
 	/**
 	 * for test and debug purpose: if true the function cgrForward() will
 	 * never be invoked.

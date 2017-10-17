@@ -1,0 +1,12 @@
+#
+# This is a template to run the ContactGraphRouter
+# The ContactGraphRouter needs a contact plan, you can either write it directly, if deterministic contact are enforced as in the ASMS2014
+# example, or you can convert a ONE log file by means of CPCreator.sh
+#
+Scenario.name = CGR
+
+Group.router = ContactGraphRouter
+ContactGraphRouter.debug = false
+
+#Set your path to the contact plan
+ContactGraphRouter.ContactPlanPath = /yourPathTo/contact_plan.txt

@@ -1,0 +1,44 @@
+#
+# This is a template to run the PriorityOpportunisticContactGraphRouter
+# The PriorityOpportunisticContactGraphRouter can use a contact plan althought it is not required; you can either write it directly, 
+# or you can convert a ONE log file by means of CPConverter.sh
+#
+
+Scenario.name = PriorityOpportunisticContactGraphRouter
+Group.router = PriorityOpportunisticContactGraphRouter
+OpportunisticContactGraphRouter.epidemicDropBack = true
+OpportunisticContactGraphRouter.preventCGRForward = false
+OpportunisticContactGraphRouter.debug = false
+ContactGraphRouter.debug = false
+
+#Set your path to the contact plan (optional with OCGR; decomment if you want to provide it)
+#ContactGraphRouter.ContactPlanPath = /yourPathTo/contact_plan.txt
+
+#Begin settings for priority message random generators and priority reports
+# one message generator for each priority level: Bulk, Normal and Expedited
+Events.nrof = 3
+# generator of "Bulk" messages
+Events1.class = PriorityMessageEventGenerator
+Events1.interval = 1,160
+Events1.size = 100k
+Events1.hosts = 0,126
+Events1.prefix = B
+Events1.priority = 0
+# generator of "Normal" messages
+Events2.class = PriorityMessageEventGenerator
+Events2.interval = 1,255
+Events2.size = 100k
+Events2.hosts = 0,126
+Events2.prefix = N
+Events2.priority = 1
+# generator of "Expedited" messages
+Events3.class = PriorityMessageEventGenerator
+Events3.interval = 1,300
+Events3.size = 100k
+Events3.hosts = 0,126
+Events3.prefix = E
+Events3.priority = 2
+#End settings for priority message random generators
+
+#Reports
+Report.report1 = PriorityMessageStatsReport

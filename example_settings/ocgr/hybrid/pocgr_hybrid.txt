@@ -1,0 +1,90 @@
+#Scenario
+Scenario.name = Simulation_POCGR_hybrid
+Scenario.endTime = 21600
+Scenario.nrofHostGroups = 7
+
+#Interface
+AsymmetricInterface.type = SimpleAsymmetricInterface
+AsymmetricInterface.transmitSpeed = 500k
+AsymmetricInterface.transmitRange = 200
+
+#Group (common)
+#Router selection (alternatively POCGR, Prophet, or Epidemic; only POCGR requires the contact plan):
+Group.router = PriorityOpportunisticContactGraphRouter
+ContactGraphRouter.ContactPlanPath = example_settings/ocgr/hybrid/contact_plan_hybrid.txt
+OpportunisticContactGraphRouter.epidemicDropBack = true
+OpportunisticContactGraphRouter.preventCGRForward = false
+OpportunisticContactGraphRouter.debug = false
+#Group.router = ProphetRouter
+#Group.router = EpidemicRouter
+
+#Group (specific)
+#Group of nodes definition (6 groups for the 6 fixed hosts, one group for 10 cars). It is worth stressing that nodes inserted in the contact plan
+#must have the same radio interface in position 1.
+Group1.nrofHosts = 1
+Group2.nrofHosts = 1
+Group3.nrofHosts = 1
+Group4.nrofHosts = 1
+Group5.nrofHosts = 1
+Group6.nrofHosts = 1
+Group7.nrofHosts = 10
+
+Group1.groupID = h
+Group1.nrofInterfaces = 1
+Group2.groupID = h
+Group2.nrofInterfaces = 1
+Group3.groupID = h
+Group3.nrofInterfaces = 1
+Group4.groupID = h
+Group4.nrofInterfaces = 1
+Group5.groupID = h
+Group5.nrofInterfaces = 1
+Group6.groupID = h
+Group6.nrofInterfaces = 1
+Group7.groupID = c
+Group1.interface1 = AsymmetricInterface
+Group2.interface1 = AsymmetricInterface
+Group3.interface1 = AsymmetricInterface
+Group4.interface1 = AsymmetricInterface
+Group5.interface1 = AsymmetricInterface
+Group6.interface1 = AsymmetricInterface
+Group7.interface1 = AsymmetricInterface
+
+#Node movement or position; note that in order to locate 6 fixed nodes on different point of the map (cross-roads), it was necessary to define 
+#6 different groups, which is clearly cumbersome; new ONE methods should be defined to make simpler the fulfilment of this basic need:
+Group1.movementModel = StationaryMovement
+Group1.nodeLocation = 1535,353
+Group2.movementModel = StationaryMovement
+Group2.nodeLocation = 1484,748
+Group3.movementModel = StationaryMovement
+Group3.nodeLocation = 1146,1489
+Group4.movementModel = StationaryMovement
+Group4.nodeLocation = 2029,1805
+Group5.movementModel = StationaryMovement
+Group5.nodeLocation = 2540,1622
+Group6.movementModel = StationaryMovement
+Group6.nodeLocation = 2495,995
+Group7.movementModel = ShortestPathMapBasedMovement
+Group7.okMaps = 1
+Group7.speed = 2.7, 13.9
+
+#Events
+Events.nrof = 3
+#Determinitic contacts
+Events1.class = CPExternalEventsQueue
+Events1.filePath = example_settings/ocgr/hybrid/contact_plan_hybrid.txt
+#Determinitic messages
+Events2.class = DMExternalEventsQueue
+Events2.filePath = example_settings/ocgr/hybrid/message_plan_hybrid.txt
+Events2.prefix = D
+#Random messages (for cars only)
+Events3.class = PriorityMessageEventGenerator
+Events3.interval = 40,60
+Events3.size = 10k
+Events3.hosts = 6,16
+Events3.prefix = M
+Events3.priority = 1
+
+#Reports
+Report.report1 = PriorityMessageStatsReport
+#Report.report1 = OCGRMessageStatsReport

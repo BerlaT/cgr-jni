@@ -1,6 +1,0 @@
-VAR					TYPE		MALLOC PTR		PSMADDRESS		LENGTH
-iondbbuf.contacts 	SmList	 			40
-iondbobject			IonDB				4536
-vdbAddress			IonVdb				80
-vdb->nodes			SmRbt		0x7f2f500f7fb0	0x7f2f5007e828	32
-obj					IonContact			40

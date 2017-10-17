@@ -1,0 +1,17 @@
+#
+# This is a template to run the OpportunisticContactGraphRouter
+# The OpportunisticContactGraphRouter can use a contact plan althought it is not required; you can either write it directly, 
+# or you can convert a LogFile of One by means of CPConverter.sh
+#
+
+Scenario.name = OpportunisticCGR
+Group.router = OpportunisticContactGraphRouter
+OpportunisticContactGraphRouter.epidemicDropBack = true
+OpportunisticContactGraphRouter.preventCGRForward = false
+OpportunisticContactGraphRouter.debug = false
+#Set your path to the contact plan (optional in OCGR; decomment if you want to provide it)
+#OpportunisticContactGraphRouter.ContactPlanPath = /yourPathTo/contact_plan.txt
+#Reports
+Report.report2 = OCGRMessageStatsReport
+
+
