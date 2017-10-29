@@ -7,7 +7,6 @@ package routing;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
 import cgr_jni.Libocgr;
 import core.Connection;
 import core.DTNHost;
@@ -238,7 +237,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 		if (!isTransferring() && epidemicDropBack)
 		{
 			first = getFirstEpidemicMessage();
-			if (first == null)
+			if (first == null) 
 				return;
 			for (Connection c : getConnections()){
 				if(c.getOtherNode(getHost()).equals(getHost())) continue;
@@ -319,7 +318,6 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 	@Override
 	public Message messageTransferred(String id, DTNHost from) {
 		Message transferred = super.messageTransferred(id, from);
-		transferred.updateProperty(EPIDEMIC_FLAG_PROP, false);
 		return transferred;
 	}
 	
@@ -408,8 +406,7 @@ public class OpportunisticContactGraphRouter extends ContactGraphRouter {
 			}
 		}
 		else result = 0;
-		if (result == 0 && epidemicDropBack)
-		{
+		if (result == 0 && epidemicDropBack){
 			m.updateProperty(EPIDEMIC_FLAG_PROP, true);
 		}
 		else

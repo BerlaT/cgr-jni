@@ -29,6 +29,8 @@
 
 #define	CGRVDB_NAME	"cgrvdb"
 
+#define ONE_SIMULATION 1
+
 #ifdef	ION_BANDWIDTH_RESERVED
 #define	MANAGE_OVERBOOKING	0
 #endif
