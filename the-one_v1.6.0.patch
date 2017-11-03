@@ -4,7 +4,7 @@ diff -ruN one.sh one.sh
 @@ -1,2 +1,2 @@
  #! /bin/sh
 -java -Xmx512M -cp target:lib/ECLA.jar:lib/DTNConsoleConnection.jar core.DTNSim $*
-+java -Xmx512M -cp bin:target:lib/ECLA.jar:lib/DTNConsoleConnection.jar:$CGR_JNI_C
++java -Xmx512M -Djava.library.path=$LD_LIBRARY_PATH -cp bin:target:lib/ECLA.jar:lib/DTNConsoleConnection.jar:$CGR_JNI_CLASSPATH core.DTNSim $*
 diff -ruN src/core/DTNHost.java src/core/DTNHost.java
 --- src/core/DTNHost.java	2017-04-17 12:30:39.000000000 +0200
 +++ src/core/DTNHost.java	2017-09-07 17:13:06.394603000 +0200
